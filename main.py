@@ -33,7 +33,6 @@ with open(magnet_filename, mode='w') as mf:
             print(source)
             print(magnet)
 
-
             # 下载种子
             print(f"download torrent: {head_url}{source}")
             torrent = requests.get(url = f'{head_url}{source}', headers = headers ).content # 二进制数据
@@ -45,15 +44,7 @@ with open(magnet_filename, mode='w') as mf:
             with open(file_name, mode='wb') as f:
                 f.write(torrent)
                 print(f"download done. {title}")
+
         except Exception as e:
             print(f"err: {e}")
             continue
-
-
-
-
-
-
-
-
-
