@@ -1,7 +1,3 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 import requests, parsel , os
 from tqdm import tqdm
 
@@ -20,26 +16,38 @@ url_list = selector.xpath('//tbody/tr/td[3]/a[1]/@href').getall() #xpath 语法
 head_url = 'https://mikanani.me'
 url_list = [head_url + u for u in url_list]
 
+os.makedirs('data', exist_ok=True)
+magnet_filename = 'data/magnet.txt'
+with open(magnet_filename, mode='w') as mf:
 
-# 3. 下一页
-for u in tqdm(url_list):
-    response2 = requests.get(url = u, headers = headers)
-    selector2 = parsel.Selector(response2.text)
-    title_list = selector2.xpath('//p[@class="episode-title"]/text()').get()
-    sourse_list = selector2.xpath('//div[@class="leftbar-nav"]/a[1]/@href').get()
-    print(title_list)
-    print(sourse_list)
+    # 3. 进入下一页获取磁力链接和种子并存储
+    for u in tqdm(url_list):
+        try:
+            response2 = requests.get(url = u, headers = headers)
+            selector2 = parsel.Selector(response2.text)
+            # 这里使用xpath进行路径匹配 使用chrome的xpath helper工具即可
+            title = selector2.xpath('//p[@class="episode-title"]/text()').get()
+            source = selector2.xpath('//div[@class="leftbar-nav"]/a[1]/@href').get()
+            magnet = selector2.xpath('//div[@class="leftbar-nav"]/a[2]/@href').get()
+            print(title)
+            print(source)
+            print(magnet)
 
-    # 下载种子
-    print(f"download torrent: {head_url}{sourse_list}")
-    torrent = requests.get(url = f'{head_url}{sourse_list}', headers = headers ).content # 二进制数据
 
-    # 4.数据保存
-    os.makedirs('data', exist_ok=True)
-    file_name = 'data/' + title_list[:10] + '...'+ title_list[-30:] + '.torrent'
-    with open(file_name, mode='wb') as f:
-        f.write(torrent)
-        print(f"download done. {title_list}")
+            # 下载种子
+            print(f"download torrent: {head_url}{source}")
+            torrent = requests.get(url = f'{head_url}{source}', headers = headers ).content # 二进制数据
+
+            # 4.数据保存
+            mf.write(f"{title}\t{magnet}\n")
+
+            file_name = 'data/' + title[:10] + '...'+ title[-30:] + '.torrent'
+            with open(file_name, mode='wb') as f:
+                f.write(torrent)
+                print(f"download done. {title}")
+        except Exception as e:
+            print(f"err: {e}")
+            continue
 
 
 
