@@ -93,16 +93,31 @@ if __name__ == '__main__':
     #os.remove(file_name_png)
 
     # denglu
+    session = requests.Session()
     url = 'https://so.gushiwen.cn/user/login.aspx?from=http%3a%2f%2fso.gushiwen.cn%2fuser%2fcollect.aspx'
     params={
+        '__VIEWSTATE': 'OcCrWS1565UUjsCSZx3wHyz5wgBCJG + Xjv1 + POLngFhmLXY1BrbSRTOOwNWyzWJ7pAZx2ZXtxjWYk79mXlX / laD1FQKW / sJ + dvvNyX3zqNi + P90z4RBytVrXpdA =',
+        '__VIEWSTATEGENERATOR': 'C93BE1AE',
+        'from': 'http://so.gushiwen.cn/user/collect.aspx',
         'email': '760950023@qq.com',
         'pwd': 'guc521lz',
         'code': code,
         'denglu': '登录'
     }
 
-    response = requests.post(url = url, params =params, headers =headers)
-    print(response.text)
+    response = session.post(url = url, params =params, headers =headers)
+    print(response.status_code)
+    for cookie in response.cookies:
+        print(cookie.name, cookie.value)
+
+    # cookie , 爬取登陆后信息 error
+    url = 'https://www.gushiwen.cn/'
+    detail_page_text = session.get(url = url).text
+    print(detail_page_text)
+    tree = etree.HTML(detail_page_text)
+    div_list = tree.xpath('//div[@class="cont"]//text()')
+
+
 
 
 

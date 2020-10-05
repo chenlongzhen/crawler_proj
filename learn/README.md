@@ -177,6 +177,21 @@ response = requests.post(request_url, data=params, headers=headers)
 if response:
     print (response.json())
 ```
-4. 模拟登陆:
+## 6. 模拟登陆
+见ocr_login.py代码
+
+## 7. cookie模拟登陆
+见ocr_login.py代码
+
+http/https协议特性: 无状态, 不会记录用户状态.
+需要用到cookie: 用来让服务器端记录客户端状态.
+- 方法
+1. 手动放到heaher上
+2. 使用session模拟登陆post请求发送(cookie保存在这里)
+   ```
+    session  = request.Session()
+   ```
+
+
 
 
