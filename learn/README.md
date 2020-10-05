@@ -132,4 +132,27 @@ soup.select('.tang > ul a').['href'] # 获取href内容
 ### 5.3 xpath
 首选xpath解析
 
+1. 实例化etree
+```
+from lxml import etree
+tree = etree.parse(filePath)
+tree = etree.HTML('page_text')
+```
+2. xpath('xpath表达式')
+```
+tree.xpath('/html/body/div')
+tree.xpath('/html//div') #//多个层级
+tree.xpath('//div') #//多个层级 所有div
+
+
+tree.xpath('//div[@class="song"]') # 属性定位, class=song
+tree.xpath('//div[@class="song"]/p[3]') #索引定位 从1开始的
+tree.xpath('//div[@class="tang']//li[5]/a/text())[0] 
+
+tree.xpath('//div[@class="song"]/img/@src') #取属性
+tree.xpath('//div[@class="song"]/img/@src | '//div[@class="song"]/img/@src') #同时取多个 或
+
+```
+
+
 
