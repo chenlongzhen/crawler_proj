@@ -191,6 +191,13 @@ http/https协议特性: 无状态, 不会记录用户状态.
    ```
     session  = request.Session()
    ```
+## 8. 代理
+代理评测: https://www.zhihu.com/question/55807309
+http://www.goubanjia.com/
+
+代理ip类型:
+1. http
+2. https
 
 
 
