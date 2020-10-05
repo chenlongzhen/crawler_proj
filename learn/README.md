@@ -1,5 +1,6 @@
 # 爬虫学习
 https://www.bilibili.com/video/BV1Yh411o7Sz?p=2
+https://book.apeland.cn/
 
 ## 1. 分类
 1. 通用爬虫： 一整张页面数据
@@ -144,15 +145,38 @@ tree.xpath('/html/body/div')
 tree.xpath('/html//div') #//多个层级
 tree.xpath('//div') #//多个层级 所有div
 
-
 tree.xpath('//div[@class="song"]') # 属性定位, class=song
 tree.xpath('//div[@class="song"]/p[3]') #索引定位 从1开始的
 tree.xpath('//div[@class="tang']//li[5]/a/text())[0] 
 
 tree.xpath('//div[@class="song"]/img/@src') #取属性
 tree.xpath('//div[@class="song"]/img/@src | '//div[@class="song"]/img/@src') #同时取多个 或
-
 ```
+3. 验证码
+百度ocr : https://ai.baidu.com/ai-doc/OCR/1k3h7y3db
+```
+# encoding:utf-8
 
+import requests
+import base64
+
+'''
+通用文字识别（高精度版）
+'''
+
+request_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic"
+# 二进制方式打开图片文件
+f = open('[本地文件]', 'rb')
+img = base64.b64encode(f.read())
+
+params = {"image":img}
+access_token = '[调用鉴权接口获取的token]'
+request_url = request_url + "?access_token=" + access_token
+headers = {'content-type': 'application/x-www-form-urlencoded'}
+response = requests.post(request_url, data=params, headers=headers)
+if response:
+    print (response.json())
+```
+4. 模拟登陆:
 
 
