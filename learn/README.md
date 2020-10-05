@@ -54,6 +54,10 @@ Request Method: POST
 content-type: application/json
 Form Data:  kw:gou (输入的是狗)
 ```
+关于post的返回格式: 
+1. text
+2. content 二进制 例如图片
+3. json
 
 post请求携带了参数,携带了json数据,如何发post请求?
 ```python
@@ -69,8 +73,63 @@ response = requests.post(url = post_url, data = data, headers=headers)
 page_text =response.json()
 ```
 
-## 4.3 
+## 5. 数据解析
+1. 正则
+2. bs4
+3. xpath 重点!
+https://book.apeland.cn/details/78/
 
- 
+### 5.1 正则匹配
+https://book.apeland.cn/details/79/
+
+### 5.2 bs4
+- 数据解析原理:
+    1. 标签定位
+    2. 提取标签\标签属性中存储的数据值
+- bs4数据解析原理:
+    1. 实例化一个beautifulSoup对象, 并将源码数据加载
+    2. 调用对象中的方法定位
+- install
+    1. pip install bs4
+    2. pip install lxml
+
+    ```python
+    from bs4 import BeautifulSoup
+    ```
+- 实例化方法:  
+1. 加载html
+```python
+fp = open('./text.html', 'r', encoding='utf-8')
+soup = BeautifulSoup(fp, 'lxml')
+```
+2. 将web上获取的页面源码加载到对象中  
+```python
+page_text = response.text
+soup = BeatifulSoup(page_text, 'lxml')
+```
+
+- 用于解析的方法和属性
+```
+soup.tagName : 第一次出现的name对应的标签
+soup.find('div'): 第一次出现的div标签
+soup.find('div',class_  = 'song'): class='song' 对应的div .[/id/attr]
+soup.find_all('a') : 返回列表
+
+soup.select('.tang'): ( 匹配 div class='tang', 但会列表.
+soup.select('.tang > ul > li > a')[0] : 层级选择器, 取第0个标签
+soup.select('.tang > ul a')[0]: 空格表示多个层级! > 表示一个层级. 
+```
+- 获取标签中的文本
+```
+soup.select('.tang > ul a').text/string/get_text() 
+text: 所有内容
+string: 只获取直系文本 
+get_text:所有内容 
+
+soup.select('.tang > ul a').['href'] # 获取href内容
+```
+
+### 5.3 xpath
+首选xpath解析
 
 

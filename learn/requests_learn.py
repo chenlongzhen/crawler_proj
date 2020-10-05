@@ -1,6 +1,9 @@
 import requests, os
 import json
 
+#####1. 搜狗搜索#########################
+#####1. 搜狗搜索#########################
+#####1. 搜狗搜索#########################
 url = 'https://www.sogou.com/web?'
 
 # 搜索词参数
@@ -20,6 +23,8 @@ fileName = f'data/{kw}.html'
 with open(fileName, 'w', encoding='utf-8') as fp:
     fp.write(page_text)
 
+###########post###################
+###########post###################
 ###########post###################
 
 # 1. url post
