@@ -1,4 +1,6 @@
 import scrapy
+import sys
+from qiubaiPro.items import QiubaiproItem
 
 
 class QiubaiSpider(scrapy.Spider):
@@ -9,7 +11,7 @@ class QiubaiSpider(scrapy.Spider):
     def parse(self, response):
         divs = response.xpath('//div[contains(@class,"col1 old-style-col1")]/div')
         for div in divs:
-            author = div.xpath('./div[1]/a[2]/h2/text()')[0]
+            author = div.xpath('./div[1]/a[2]/h2/text() | ./div[1]/span[2]/h2/text()')[0]
             content = div.xpath('./a[1]/div/span//text()') # 有其他子标签用//text()!!
 
             # extract or extract_first
@@ -20,8 +22,10 @@ class QiubaiSpider(scrapy.Spider):
              ##############################
              # 基于管道, 指令的方式见资料代码
              ##############################
-
-
+            item = QiubaiproItem()
+            item['author'] = author.extract().strip()
+            item['content'] = "".join(content.extract()).replace(" ","").strip()
+            yield item
 
     ##############################
     # user agent 也需要在setting中配置
