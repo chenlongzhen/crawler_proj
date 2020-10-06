@@ -151,6 +151,8 @@ tree.xpath('//div[@class="tang']//li[5]/a/text())[0]
 
 tree.xpath('//div[@class="song"]/img/@src') #取属性
 tree.xpath('//div[@class="song"]/img/@src | '//div[@class="song"]/img/@src') #同时取多个 或
+
+url_video = tree.xpath('//div[contains(@class, "prism-player")]/video/@src')[0] # contains 尤其是带空格的用这个
 ```
 3. 验证码
 百度ocr : https://ai.baidu.com/ai-doc/OCR/1k3h7y3db
@@ -198,6 +200,69 @@ http://www.goubanjia.com/
 代理ip类型:
 1. http
 2. https
+
+## 9. 异步爬虫
+高性能异步爬虫
+目的：在爬虫中使用异步实现高性能的数据爬取操作。
+
+异步爬虫的方式：
+    - 1.多线程，多进程（不建议）：
+        好处：可以为相关阻塞的操作单独开启线程或者进程，阻塞操作就可以异步执行。
+        弊端：无法无限制的开启多线程或者多进程。
+    - 2.线程池、进程池（适当的使用）：
+        好处：我们可以降低系统对进程或者线程创建和销毁的一个频率，从而很好的降低系统的开销。
+        弊端：池中线程或进程的数量是有上限。
+
+- 3.单线程+异步协程（推荐）：
+    event_loop：事件循环，相当于一个无限循环，我们可以把一些函数注册到这个事件循环上，
+    当满足某些条件的时候，函数就会被循环执行。
+
+    coroutine：协程对象，我们可以将协程对象注册到事件循环中，它会被事件循环调用。
+    我们可以使用 async 关键字来定义一个方法，这个方法在调用时不会立即被执行，而是返回
+    一个协程对象。
+
+    task：任务，它是对协程对象的进一步封装，包含了任务的各个状态。
+
+    future：代表将来执行或还没有执行的任务，实际上和 task 没有本质区别。
+
+    async 定义一个协程.
+
+    await 用来挂起阻塞方法的执行。
+### 例子
+ascync_learn_v3.py   
+
+## 10 selenium使用
+动态加载数据处理:
+1. 抓包工具
+2. selenium
+用途:
+1. 动态加载获取
+2. 模拟登陆
+
+
+selenium使用流程：
+    - 环境安装：pip install selenium
+    - 下载一个浏览器的驱动程序（谷歌浏览器）
+        - 下载路径：http://chromedriver.storage.googleapis.com/index.html
+        - 驱动程序和浏览器的映射关系：http://blog.csdn.net/huilan_same/article/details/51896672
+        https://chromedriver.chromium.org/
+    - 实例化一个浏览器对象
+    - 编写基于浏览器自动化的操作代码
+        - 发起请求：get(url)
+        - 标签定位：find系列的方法
+        - 标签交互：send_keys('xxx')
+        - 执行js程序：excute_script('jsCode')
+        - 前进，后退：back(),forward()
+        - 关闭浏览器：quit()
+
+    - selenium处理iframe
+        - 如果定位的标签存在于iframe标签之中，则必须使用switch_to.frame(id)
+        - 动作链（拖动）：from selenium.webdriver import ActionChains
+            - 实例化一个动作链对象：action = ActionChains(bro)
+            - click_and_hold（div）：长按且点击操作
+            - move_by_offset(x,y)
+            - perform()让动作链立即执行
+            - action.release()释放动作链对象
 
 
 
