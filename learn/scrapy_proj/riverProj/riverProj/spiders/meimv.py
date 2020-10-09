@@ -2,6 +2,8 @@ import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from riverProj.items import RiverprojItem
+from scrapy.utils.log import configure_logging
+import logging
 
 
 class MeimvSpider(CrawlSpider):
@@ -14,6 +16,13 @@ class MeimvSpider(CrawlSpider):
     rules = (
         Rule(domain_link, callback='parse_item', follow=False),
         Rule(detail_link, callback='parse_detail', follow=False),
+    )
+
+    configure_logging(install_root_handler=False)
+    logging.basicConfig(
+        filename='log.txt',
+        format='%(levelname)s: %(message)s',
+        level=logging.INFO
     )
 
     def parse_item(self, response):
