@@ -12,11 +12,12 @@ class MeimvSpider(CrawlSpider):
     domain_link = LinkExtractor(allow=r'c49p\d+\.aspx')
     detail_link = LinkExtractor(allow=r'n\d+c\d+[p\d+]{0,}\.aspx')
     rules = (
-        Rule(domain_link, callback='parse_item', follow=True),
-        Rule(detail_link, callback='parse_detail', follow=True),
+        Rule(domain_link, callback='parse_item', follow=False),
+        Rule(detail_link, callback='parse_detail', follow=False),
     )
 
     def parse_item(self, response):
+        print('1')
         pass
         # https://www.24fa.cc/c49.aspx
         #tr_list = response.xpath('//*[@id="dlNews"]//tr')
@@ -31,10 +32,11 @@ class MeimvSpider(CrawlSpider):
     def parse_detail(self, response):
 
         img_list = response.xpath('//*[@id="printBody"]')
+        print(img_list)
         for img_content in img_list:
 
             title = img_content.xpath('./div[1]/h1/text()').extract_first()
-            img_url_list = img_content.xpath('./div[3]/img').extract() # img url列表
+            img_url_list = img_content.xpath('./div[3]//img/@src').extract() # img url列表
 
             for img_url in img_url_list:
                 item = RiverprojItem()
