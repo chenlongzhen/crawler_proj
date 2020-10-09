@@ -17,7 +17,7 @@ class MeimvSpider(CrawlSpider):
     )
 
     def parse_item(self, response):
-        print('1')
+        #print('1')
         pass
         # https://www.24fa.cc/c49.aspx
         #tr_list = response.xpath('//*[@id="dlNews"]//tr')
@@ -32,7 +32,7 @@ class MeimvSpider(CrawlSpider):
     def parse_detail(self, response):
 
         img_list = response.xpath('//*[@id="printBody"]')
-        print(img_list)
+        #print(img_list)
         for img_content in img_list:
 
             title = img_content.xpath('./div[1]/h1/text()').extract_first()

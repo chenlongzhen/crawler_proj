@@ -29,11 +29,12 @@ class RiverprojPipeline(ImagesPipeline):
         title = item.get('title')
         url = item.get('img_url')
         os.makedirs(f'./imgs/{title}', exist_ok=True)
-        imgName = f'./imgs/{title}/' + url.split('/')[-1]
+        imgName = f'./imgs/{title}/' + url.split('/')[-1].replace("_gzip.aspx","")
         print(imgName)
         return imgName
     # https://blog.csdn.net/php_fly/article/details/19688595
     def item_completed(self, results, item, info):
+        print(results)
         image_paths = [x['path'] for ok, x in results if ok]
         if not image_paths:
             raise DropItem("Item contains no images")
