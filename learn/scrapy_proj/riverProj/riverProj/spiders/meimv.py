@@ -14,8 +14,8 @@ class MeimvSpider(CrawlSpider):
     domain_link = LinkExtractor(allow=r'c49p\d+\.aspx')
     detail_link = LinkExtractor(allow=r'n\d+c\d+[p\d+]{0,}\.aspx')
     rules = (
-        Rule(domain_link, callback='parse_item', follow=False),
-        Rule(detail_link, callback='parse_detail', follow=False),
+        Rule(domain_link, callback='parse_item', follow=True),
+        Rule(detail_link, callback='parse_detail', follow=True),
     )
 
     configure_logging(install_root_handler=False)
