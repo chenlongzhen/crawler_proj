@@ -10,6 +10,7 @@ import os
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 from scrapy.pipelines.images import ImagesPipeline
+from riverProj.dingding import send_dingding_msg
 import scrapy
 # TODO: from scrapy.pipelines.media import MediaPipeline
 from scrapy.settings import Settings

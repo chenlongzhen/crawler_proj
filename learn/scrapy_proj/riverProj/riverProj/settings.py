@@ -90,6 +90,9 @@ ITEM_PIPELINES = {
 #pic 目录
 IMAGES_STORE='./data'
 
+# 通过在settings.py中设置DEPTH_LIMIT的值可以限制爬取深度，这个深度是与start_urls中定义url的相对值。也就是相对url的深度。例如定义url为：http://www.domz.com/game/,DEPTH_LIMIT=1那么限制爬取的只能是此url下一级的网页。深度大于设置值的将被ignore。
+DEPTH_LIMIT = 2
+
 ## 避免下载最近90天已经下载过的文件内容
 #FILES_EXPIRES = 90
 ## 避免下载最近90天已经下载过的图像内容
