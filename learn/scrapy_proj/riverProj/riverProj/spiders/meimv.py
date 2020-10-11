@@ -7,8 +7,9 @@ import logging
 
 class MeimvSpider(CrawlSpider):
     name = 'meimv'
-    # allowed_domains = ['www.xxx.com']
-    start_urls = ['https://www.24fa.cc/c49p1.aspx']
+    allowed_domains = ['www.24fa.cc']
+    #start_urls = ['https://www.24fa.cc/c49p1.aspx']
+    start_urls = ['https://www.24fa.cc/n76990c49p2.aspx']
 
     domain_link = LinkExtractor(allow=r'c49p\d+\.aspx')
     detail_link = LinkExtractor(allow=r'n\d+c\d+[p\d+]{0,}\.aspx')
@@ -16,7 +17,7 @@ class MeimvSpider(CrawlSpider):
         Rule(domain_link, callback='parse_item', follow=True),
         Rule(detail_link, callback='parse_detail', follow=True),
     )
-
+    # 打印到文件，zaisetting中设置打印到文件 终端就没有了
     configure_logging(install_root_handler=False)
     logging.basicConfig(
         filename='log.txt',
@@ -44,7 +45,7 @@ class MeimvSpider(CrawlSpider):
         for img_content in img_list:
 
             title = img_content.xpath('./div[1]/h1/text()').extract_first()
-            img_url_list = img_content.xpath('./div[3]/div[contains(@class,"text-align")]/img/@src').extract() # img url列表 #tbody不要 # //尽量少来做比较精确的匹配
+            img_url_list = img_content.xpath('//*[@id="printBody"]/div[3]/div[1]/div[contains(@style,"text-align")]/img/@src').extract() # img url列表 #tbody不要 # //尽量少来做比较精确的匹配
 
             for img_url in img_url_list:
                 item = RiverprojItem()
