@@ -6,7 +6,7 @@ import logging
 class MeimvSpider(scrapy.Spider):
     name = 'meimv'
     allowed_domains = ['www.24fa.cc']
-    start_urls = [f'https://www.24fa.cc/c49p{i}.aspx' for i in range(1,2,1)]
+    start_urls = [f'https://www.24fa.cc/c49p{i}.aspx' for i in range(1,500,1)] # 500页
 
     # 打印到文件，zaisetting中设置打印到文件 终端就没有了
     configure_logging(install_root_handler=False)
@@ -46,16 +46,18 @@ class MeimvSpider(scrapy.Spider):
             if len(img_url_list) < 2:
                 continue
 
+            # 其他页 先爬
+            for img_url in sub_url_list:
+                url = r'http://www.24fa.cc/' + img_url
+                yield scrapy.Request(url=url, callback=self.parse_detail_v2)
+
+            #本页图片
             for img_url in img_url_list:
                 item = RiverprojItem()
                 item['title'] = title
                 item['img_url'] = r'http://www.24fa.cc/' + img_url
                 yield item
 
-            # 其他页
-            for img_url in sub_url_list:
-                url = r'http://www.24fa.cc/' + img_url
-                yield scrapy.Request(url=url, callback=self.parse_detail_v2)
 
     def parse_detail_v2(self, response):
         img_list = response.xpath('//*[@id="printBody"]')
