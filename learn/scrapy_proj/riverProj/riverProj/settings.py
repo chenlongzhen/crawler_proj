@@ -19,7 +19,7 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
-LOG_LEVEL = "INFO"
+#LOG_LEVEL = "INFO"
 #LOG_FILE = "mySpider.log"
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
@@ -94,18 +94,23 @@ ITEM_PIPELINES = {
 IMAGES_STORE='./data'
 
 # 通过在settings.py中设置DEPTH_LIMIT的值可以限制爬取深度，这个深度是与start_urls中定义url的相对值。也就是相对url的深度。例如定义url为：http://www.domz.com/game/,DEPTH_LIMIT=1那么限制爬取的只能是此url下一级的网页。深度大于设置值的将被ignore。
-DEPTH_LIMIT = 2
+#如果为零（默认），则不从深度进行优先级调整
+#正值将降低优先级，即，较高深度请求将被稍后处理 ; 这通常用于做广度优先爬网（BFO）
+#负值将增加优先级，即，较高深度请求将被更快地处理（DFO）
+DEPTH_LIMIT =  3
+DEPTH_PRIORITY = 3
+DEPTH_STATS_VERBOSE = True #深度状态收集
 
-## 避免下载最近90天已经下载过的文件内容
-#FILES_EXPIRES = 90
-## 避免下载最近90天已经下载过的图像内容
-#IMAGES_EXPIRES = 30
-#
+# 避免下载最近90天已经下载过的文件内容
+FILES_EXPIRES = 90
+# 避免下载最近90天已经下载过的图像内容
+IMAGES_EXPIRES = 30
+
 ## 设置图片缩略图
 #IMAGES_THUMBS = {
 #    'small': (50, 50),
 #    'big': (250, 250),
 #}
-## 图片过滤器，最小高度和宽度，低于此尺寸不下载
-#IMAGES_MIN_HEIGHT = 110
-#IMAGES_MIN_WIDTH = 110
+# 图片过滤器，最小高度和宽度，低于此尺寸不下载
+IMAGES_MIN_HEIGHT = 110
+IMAGES_MIN_WIDTH = 110
