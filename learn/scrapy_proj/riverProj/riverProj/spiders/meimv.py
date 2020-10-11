@@ -8,8 +8,7 @@ import logging
 class MeimvSpider(CrawlSpider):
     name = 'meimv'
     allowed_domains = ['www.24fa.cc']
-    #start_urls = ['https://www.24fa.cc/c49p1.aspx']
-    start_urls = ['https://www.24fa.cc/n76990c49p2.aspx']
+    start_urls = ['https://www.24fa.cc/c49p1.aspx']
 
     domain_link = LinkExtractor(allow=r'c49p\d+\.aspx')
     detail_link = LinkExtractor(allow=r'n\d+c\d+[p\d+]{0,}\.aspx')
