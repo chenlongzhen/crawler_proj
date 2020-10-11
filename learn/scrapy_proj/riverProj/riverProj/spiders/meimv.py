@@ -17,14 +17,24 @@ class MeimvSpider(scrapy.Spider):
     )
 
     def parse(self, response):
+        """
+        first page
+        :param response:
+        :return:
+        """
         img_title_list = response.xpath('//*[@id="dlNews"]//tr')
         # fixme
-        for img_title in img_title_list[:1]:
+        for img_title in img_title_list:
             img_url = img_title.xpath('.//a/@href').extract_first()
             url = r'http://www.24fa.cc/' + img_url
             yield scrapy.Request(url=url, callback=self.parse_detail)
 
     def parse_detail(self, response):
+        """
+        每个图组页为第一页爬取 并且将其他页抽取给下一步parse 抽取其他图片
+        :param response:
+        :return:
+        """
         img_list = response.xpath('//*[@id="printBody"]')
 
         for img_content in img_list:
