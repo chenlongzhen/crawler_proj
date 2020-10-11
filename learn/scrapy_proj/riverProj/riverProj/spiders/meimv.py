@@ -5,7 +5,6 @@ from riverProj.items import RiverprojItem
 from scrapy.utils.log import configure_logging
 import logging
 
-
 class MeimvSpider(CrawlSpider):
     name = 'meimv'
     # allowed_domains = ['www.xxx.com']
@@ -45,7 +44,7 @@ class MeimvSpider(CrawlSpider):
         for img_content in img_list:
 
             title = img_content.xpath('./div[1]/h1/text()').extract_first()
-            img_url_list = img_content.xpath('./div[3]//img/@src').extract() # img url列表
+            img_url_list = img_content.xpath('./div[3]/div[contains(@class,"text-align")]/img/@src').extract() # img url列表 #tbody不要 # //尽量少来做比较精确的匹配
 
             for img_url in img_url_list:
                 item = RiverprojItem()
